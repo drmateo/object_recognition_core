@@ -1,4 +1,4 @@
-find_package(Eigen3)
+find_package(Eigen)
 include_directories(SYSTEM ${Eigen_INCLUDE_DIRS})
 
 # module with a pipeline that returns a constant value
