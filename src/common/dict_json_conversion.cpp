@@ -32,12 +32,13 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#include <map>
-#include <string>
+#include <object_recognition_core/common/json.hpp>
 
 #include <boost/python.hpp>
 
-#include <object_recognition_core/common/json.hpp>
+#include <map>
+#include <string>
+
 
 namespace bp = boost::python;
 

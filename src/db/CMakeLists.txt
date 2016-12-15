@@ -4,6 +4,7 @@ find_package(Boost COMPONENTS
   thread
   filesystem
   regex
+  python
   REQUIRED
   )
 
@@ -44,6 +45,10 @@ add_library(db_interface SHARED
             wrap_db_documents.cpp
             wrap_object_db.cpp
 )
+
+if(APPLE)
+  set_target_properties(db_interface PROPERTIES SUFFIX ".so")
+endif(APPLE)
 
 target_link_libraries(db_interface
                       object_recognition_core_common

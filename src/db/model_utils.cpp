@@ -113,7 +113,7 @@ namespace object_recognition_core
 
         while (view_iterator != ViewIterator::end())
         {
-          const or_json::mObject & obj = (*view_iterator).fields();
+           or_json::mObject obj = (*view_iterator).fields();
           // Compare the parameters to the input ones
           Document doc;
           doc.set_db(db);
@@ -124,6 +124,7 @@ namespace object_recognition_core
           ++view_iterator;
         }
       }
+
       return model_documents;
     }
 

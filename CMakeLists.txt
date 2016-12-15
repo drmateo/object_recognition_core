@@ -14,9 +14,10 @@ catkin_python_setup()
 
 add_subdirectory(python)
 
-add_definitions("-Wno-pragmas -fno-strict-aliasing -Wall -Wl,--no-undefined -Werror")
+#add_definitions("-Wno-pragmas -fno-strict-aliasing -Wall -Wl,--no-undefined -Werror")
+add_definitions("-Wno-pragmas -fno-strict-aliasing -Wall -Werror -Wno-deprecated")
 
-find_package(Boost REQUIRED system filesystem serialization)
+find_package(Boost COMPONENTS system filesystem serialization python REQUIRED)
 find_package(OpenCV REQUIRED)
 
 include_directories(SYSTEM ${Boost_INCLUDE_DIRS}

@@ -2,6 +2,8 @@
 Module defining several DB utility function for other scripts
 """
 import os
+import sys
+#sys.path.append("/Users/carlos/catkin_ws/ork/devel/lib/python2.7/site-packages/")
 from object_recognition_core.boost.interface import ObjectDbParameters, ObjectDbTypes
 from object_recognition_core.db.object_db import core_db_types
 import tools as dbtools

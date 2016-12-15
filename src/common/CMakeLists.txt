@@ -1,8 +1,17 @@
 find_package(Boost REQUIRED)
 find_package(PythonLibs REQUIRED)
 
+option(EIGEN_SPECIFICATION "Use EIGEN LIBRARY FOR COMPUTE TRANSFORMATION" ON)
+if(EIGEN_SPECIFICATION)
+  add_definitions("-DEIGEN_SPECIFICATION=1")
+#  set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+  message(STATUS "CMAKE_SOURCE_DIR " ${CMAKE_SOURCE_DIR})
+  find_package(Eigen REQUIRED)
+endif()
+
 include_directories(SYSTEM
                     ${Boost_INCLUDE_DIRS}
+		            ${Eigen_INCLUDE_DIRS}
                     ${PYTHON_INCLUDE_PATH}
 )
 
@@ -24,6 +33,10 @@ install(TARGETS object_recognition_core_common
 add_library(common_interface SHARED module_python.cpp
                                     wrap_db_pose_result.cpp
 )
+
+if(APPLE)
+  set_target_properties(common_interface PROPERTIES SUFFIX ".so")
+endif(APPLE)
 
 target_link_libraries(common_interface ${Boost_LIBRARIES}
                                        object_recognition_core_db
