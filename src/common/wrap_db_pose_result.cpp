@@ -32,6 +32,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  */
+#include <string>
 #include <object_recognition_core/common/pose_result.h>
 
 #include <boost/function.hpp>
@@ -40,7 +41,6 @@
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include <string>
 
 namespace bp = boost::python;
 

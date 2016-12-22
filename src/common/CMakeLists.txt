@@ -1,6 +1,3 @@
-find_package(Eigen3 REQUIRED)
-include_directories(BEFORE ${EIGEN3_INCLUDE_DIRS})
-
 find_package(Boost REQUIRED)
 find_package(PythonLibs REQUIRED)
 
@@ -8,7 +5,6 @@ include_directories(SYSTEM
                     ${Boost_INCLUDE_DIRS}
                     ${PYTHON_INCLUDE_PATH}
 )
-
 
 add_library(object_recognition_core_common SHARED
             dict_json_conversion.cpp
