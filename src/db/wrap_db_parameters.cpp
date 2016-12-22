@@ -41,7 +41,6 @@
 #include <map>
 #include <string>
 
-
 namespace bp = boost::python;
 
 namespace object_recognition_core

@@ -40,7 +40,6 @@
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 #include <boost/shared_ptr.hpp>
 
-
 #include <string>
 
 namespace bp = boost::python;

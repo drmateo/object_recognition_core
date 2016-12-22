@@ -6,7 +6,8 @@ find_package(PythonLibs REQUIRED)
 
 include_directories(SYSTEM
                     ${Boost_INCLUDE_DIRS}
-		    ${PYTHON_INCLUDE_PATH})
+                    ${PYTHON_INCLUDE_PATH}
+)
 
 
 add_library(object_recognition_core_common SHARED
@@ -31,7 +32,6 @@ add_library(common_interface SHARED module_python.cpp
 if(APPLE)
   set_target_properties(common_interface PROPERTIES SUFFIX ".so")
 endif(APPLE)
-
 target_link_libraries(common_interface ${Boost_LIBRARIES}
                                        object_recognition_core_db
 )

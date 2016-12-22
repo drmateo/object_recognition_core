@@ -49,7 +49,6 @@ add_library(db_interface SHARED
 if(APPLE)
   set_target_properties(db_interface PROPERTIES SUFFIX ".so")
 endif(APPLE)
-
 target_link_libraries(db_interface
                       object_recognition_core_common
                       object_recognition_core_db

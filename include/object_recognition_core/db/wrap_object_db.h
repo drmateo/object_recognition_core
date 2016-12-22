@@ -32,7 +32,6 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  */
-
 #include <object_recognition_core/db/db.h>
 #include <object_recognition_core/db/model_utils.h>
 

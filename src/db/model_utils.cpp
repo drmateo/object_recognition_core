@@ -124,7 +124,6 @@ namespace object_recognition_core
           ++view_iterator;
         }
       }
-
       return model_documents;
     }
 
