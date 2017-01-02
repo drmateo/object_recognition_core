@@ -24,30 +24,24 @@ namespace object_recognition_core
       t.declare<cv::Mat>("R", "The orientation.").required(required);
       t.declare<cv::Mat>("T", "The translation.").required(required);
       t.declare<cv::Mat>("K", "The camera intrinsic matrix").required(required);
-      t.declare<cv::Mat>("R_obj", "The object orientation.");
-      t.declare<double>("distance", "The distance from the camera to the image center.");
       t.declare<int>("frame_number", "The frame number");
     }
     void
     operator>>(Observation& o, db::DummyDocument* doc)
     {
-      std::map<std::string, cv::Mat> intrinsics, extrinsics, obj_orientation;
+      std::map<std::string, cv::Mat> intrinsics, extrinsics;
       intrinsics["K"] = o.K;
       extrinsics["R"] = o.R;
       extrinsics["T"] = o.T;
-      obj_orientation["R"] = o.R_obj;
-      std::stringstream intr_ss, extr_ss, obj_orientation_ss;
+      std::stringstream intr_ss, extr_ss;
       object_recognition_core::db::mats2yaml(intrinsics, intr_ss);
       object_recognition_core::db::mats2yaml(extrinsics, extr_ss);
-      object_recognition_core::db::mats2yaml(obj_orientation, obj_orientation_ss);
 
       object_recognition_core::db::png_attach(o.image, *doc, "image");
       object_recognition_core::db::png_attach(o.depth, *doc, "depth");
       object_recognition_core::db::png_attach(o.mask, *doc, "mask");
       doc->set_attachment_stream("intrinsics.yml", intr_ss, "text/x-yaml");
       doc->set_attachment_stream("extrinsics.yml", extr_ss, "text/x-yaml");
-      doc->set_attachment_stream("obj_orientation.yml", obj_orientation_ss, "text/x-yaml");
-      doc->set_field("distance", o.distance);
       doc->set_field("Type", "Observation");
       doc->set_field("object_id", o.object_id);
       doc->set_field("session_id", o.session_id);
@@ -60,27 +54,22 @@ namespace object_recognition_core
       o.object_id = doc->get_field<std::string>("object_id");
       o.session_id = doc->get_field<std::string>("session_id");
       o.frame_number = doc->get_field<int>("frame_number");
-      o.distance = doc->get_field<double>("distance");
       object_recognition_core::db::get_png_attachment(o.image, *doc, "image");
       object_recognition_core::db::get_png_attachment(o.depth, *doc, "depth");
       object_recognition_core::db::get_png_attachment(o.mask, *doc, "mask");
-      std::stringstream intr_ss, extr_ss, obj_orientation_ss;
+      std::stringstream intr_ss, extr_ss;
       doc->get_attachment_stream("intrinsics.yml", intr_ss);
       doc->get_attachment_stream("extrinsics.yml", extr_ss);
-      doc->get_attachment_stream("obj_orientation.yml", obj_orientation_ss);
-      std::map<std::string, cv::Mat> intrinsics, extrinsics,obj_orientation;
+      std::map<std::string, cv::Mat> intrinsics, extrinsics;
       intrinsics["K"] = cv::Mat();
       extrinsics["R"] = cv::Mat();
       extrinsics["T"] = cv::Mat();
-      obj_orientation["R"] = cv::Mat();
 
       object_recognition_core::db::yaml2mats(intrinsics, intr_ss);
       object_recognition_core::db::yaml2mats(extrinsics, extr_ss);
-      object_recognition_core::db::yaml2mats(obj_orientation, obj_orientation_ss);
       o.K = intrinsics["K"];
       o.R = extrinsics["R"];
       o.T = extrinsics["T"];
-      o.R_obj = obj_orientation["R"];
     }
     void
     operator>>(Observation& obs, const ecto::tendrils& o)
@@ -92,8 +81,6 @@ namespace object_recognition_core
       o["T"] << obs.T;
       o["K"] << obs.K;
       o["frame_number"] << obs.frame_number;
-      o["R_obj"] >> obs.R_obj;
-      o["distance"] >> obs.distance;
     }
 
     void
@@ -109,8 +96,6 @@ namespace object_recognition_core
       i["R"] >> obs.R;
       i["T"] >> obs.T;
       i["K"] >> obs.K;
-      i["R_obj"] >> obs.R_obj;
-      i["distance"] >> obs.distance;
     }
 
   }

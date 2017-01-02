@@ -52,10 +52,9 @@ class DummyDocument;
       //fields
       std::string object_id, session_id;
       int frame_number;
-      double distance;
 
       //attachments
-      cv::Mat K, R, T, R_obj; //yaml files
+      cv::Mat K, R, T; //yaml files
       cv::Mat image, depth, mask; //png images
 
       static void

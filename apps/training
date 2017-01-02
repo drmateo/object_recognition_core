@@ -9,11 +9,15 @@ from object_recognition_core.db.tools import interpret_object_ids, init_object_d
 from object_recognition_core.pipelines.plasm import create_plasm
 from object_recognition_core.utils.find_classes import find_class
 from object_recognition_core.utils.training_detection_args import create_parser, read_arguments
+from ecto.opts import scheduler_options, run_plasm
 import ecto
 import sys
 
 if __name__ == '__main__':
     parser = create_parser(do_training=True)
+
+    # add ecto options
+    scheduler_options(parser)
 
     args = parser.parse_args()
     ork_params, _args = read_arguments(args)
@@ -35,8 +39,11 @@ if __name__ == '__main__':
             ork_params_sub = {}
             ork_params_sub[_pipeline_id] = pipeline_param
             ork_params_sub[_pipeline_id]['parameters']['object_id'] = object_id
+            ork_params_sub[_pipeline_id]['parameters']['visualize'] = _args['visualize']
+            ork_params_sub[_pipeline_id]['parameters']['commit'] = _args['commit']
             plasm = create_plasm(ork_params_sub)
-            plasm.execute()
+            # run the detection plasm
+            run_plasm(args, plasm, {'visualize' : _args['visualize'], 'commit': _args['commit']})
 
         # Make sure the views exist
         object_db = ObjectDb(db_params)

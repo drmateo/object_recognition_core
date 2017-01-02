@@ -221,7 +221,8 @@ def find_all_observations_for_object(db_params, object_id):
     so they should be in chronological ordering.
     '''
     db = dbtools.db_params_to_db(db_params)
-    sessions = find_all_sessions_for_object(db, object_id)
+    sessions = find_all_sessions_for_object(db_params, object_id)
+    if len(sessions) == 0 : return []
     #run the view, keyed on the session id.
     results = Observation.by_session_id(db, key=sessions[-1])
     if len(results) == 0 : return []
