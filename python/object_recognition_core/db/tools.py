@@ -23,7 +23,7 @@ def create_db(db_name, couch):
     return db
 
 def init_object_databases(couch, db_name='object_recognition'):
-    db = create_db('object_recognition', couch)
+    db = create_db(db_name, couch)
     import models
     models.sync_models(db)
     return db
@@ -77,7 +77,7 @@ def db_params_to_db(db_params):
     """
     if db_params.type == ObjectDbTypes.COUCHDB:
         import couchdb
-        return init_object_databases(couchdb.Server(db_params.raw['root']))
+        return init_object_databases(couchdb.Server(db_params.raw['root']), db_name=db_params.raw['collection'])
 
 ########################################################################################################################
 

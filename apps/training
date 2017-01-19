@@ -43,7 +43,7 @@ if __name__ == '__main__':
             ork_params_sub[_pipeline_id]['parameters']['commit'] = _args['commit']
             plasm = create_plasm(ork_params_sub)
             # run the detection plasm
-            run_plasm(args, plasm, {'visualize' : _args['visualize'], 'commit': _args['commit']})
+            run_plasm(args, plasm, locals=vars())
 
         # Make sure the views exist
         object_db = ObjectDb(db_params)
