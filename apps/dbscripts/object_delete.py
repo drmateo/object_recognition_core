@@ -36,7 +36,7 @@ def delete_object(db, object_ids, commit):
 if __name__ == "__main__":
     args = parse_args()
     couch = couchdb.Server(args.db_root)
-    db = dbtools.init_object_databases(couch)
+    db = dbtools.init_object_databases(couch, db_name=args.db_collection)
     deletion_view(db)
     delete_object(db, args.objects, args.commit)
     if not args.commit:

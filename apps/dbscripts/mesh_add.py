@@ -22,7 +22,7 @@ if __name__ == '__main__':
     args = parse_args()
 
     couch = couchdb.Server(args.db_root)
-    db = dbtools.init_object_databases(couch)
+    db = dbtools.init_object_databases(couch, db_name=args.db_collection)
     if args.commit:
         dbtools.upload_mesh(db, args.object_id, args.mesh_original, cloud_path=None, mesh_path=None)
         print('Stored mesh for object id :', args.object_id)

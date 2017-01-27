@@ -15,7 +15,7 @@ def parse_args():
 if __name__ == "__main__":
     args = parse_args()
     couch = couchdb.Server(args.db_root)
-    db = dbtools.init_object_databases(couch)
+    db = dbtools.init_object_databases(couch, db_name=args.db_collection)
     if len(args.tag) > 0:
         results = models.Object.by_tag(db, key=args.tag)
     else:

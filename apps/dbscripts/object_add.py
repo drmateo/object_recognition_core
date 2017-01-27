@@ -32,7 +32,7 @@ if __name__ == '__main__':
                         )
 
     couch = couchdb.Server(args.db_root)
-    db = dbtools.init_object_databases(couch)
+    db = dbtools.init_object_databases(couch, db_name=args.db_collection)
     objects = db
     existing = models.Object.by_object_name(objects, key=obj.object_name)
     store_new = True
