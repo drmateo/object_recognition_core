@@ -236,10 +236,12 @@ def find_model_for_object(models_collection, object_id, model_type='all'):
     ''' Finds all of the models associated with the given object_id
     The type of the model can be specified through model_type
     '''
-    #run the view, keyed on the object id.
-    if not Model.by_object_id_and.has_key(model_type):
-        return []
-    r = Model.by_object_id_and[model_type](models_collection, key=object_id)
+    # run the view, keyed on the object id.
+    r = []
+    if model_type == 'all':
+        r = Model.by_object_id(models_collection, key=object_id)
+    elif Model.by_object_id_and.has_key(model_type):
+        r = Model.by_object_id_and[model_type](models_collection, key=object_id)
 
     if len(r) == 0 : return []
     return [ m.id for m in r ]
