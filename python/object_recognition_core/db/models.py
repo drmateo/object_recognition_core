@@ -215,17 +215,22 @@ def find_all_sessions_for_object(db_params, object_id):
     else:
         return []
 
-def find_all_observations_for_object(db_params, object_id):
+def find_all_observations_for_object(db_params, object_id, last_session=True):
     ''' Finds all of the observations associated with an object, and returns a list
     of their ids. These are sorted by the frame number,
     so they should be in chronological ordering.
     '''
     db = dbtools.db_params_to_db(db_params)
-    sessions = find_all_sessions_for_object(db_params, object_id)
-    if len(sessions) == 0 : return []
     #run the view, keyed on the session id.
-    results = Observation.by_session_id(db, key=sessions[-1])
-    if len(results) == 0 : return []
+    results = None
+    if last_session: 
+        sessions = find_all_sessions_for_object(db_params, object_id)
+        results = Observation.by_session_id(db, key=sessions[-1])
+        if len(results) == 0 : return []
+    else:
+        results = Observation.by_object_id(db, key=object_id)
+        if len(results) == 0 : return []
+        
     #create a list of tuples, so that they can be sorted by frame number
     obs_tuples = [ (obs.frame_number, obs.id) for obs in results]
     # sort by frame_number, helps preserve chronological order
