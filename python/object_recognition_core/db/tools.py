@@ -106,6 +106,29 @@ def upload_mesh(db, object_id, original_path, cloud_path=None, mesh_path=None):
 
 ########################################################################################################################
 
+def upload_cloud(db, object_id, original_path, cloud_name=None, mesh_path=None):
+    import models
+    r = models.find_model_for_object(db, object_id, 'mesh')
+    m = None
+    for model in r:
+        m = models.Model.load(db, model)
+        print "updating model:", model
+        break
+    if not m:
+        m = models.Model(object_id=object_id, method='mesh')
+        print "creating new model."
+    m.store(db)
+    if not cloud_name:
+        cloud_name = 'cloud'
+    with open(original_path, 'r') as cloud:
+        db.put_attachment(m, cloud, filename=cloud_name+'.pcd', content_type='application/octet-stream')
+        
+    if mesh_path:
+        with open(mesh_path, 'r') as mesh:
+            db.put_attachment(m, mesh, filename='mesh.stl', content_type='application/octet-stream')
+
+########################################################################################################################
+
 def interpret_object_ids(db_params, ids=[], names=[]):
     """
     Given db parameters, clean the 'object_ids' field to be a list of object ids
