@@ -30,6 +30,7 @@ namespace object_recognition_core
       declare_io(const tendrils& params, tendrils& inputs, tendrils& outputs)
       {
         Observation::declare(inputs, true); //required
+        outputs.declare<std::string>("observation_id", "The observation id.");
       }
 
       ObservationInserter()
@@ -75,10 +76,11 @@ namespace object_recognition_core
         doc.set_db(db);
         obs >> &doc;
         doc.Persist();
+        outputs["observation_id"] << doc.id();
         return ecto::OK;
       }
       int frame_number;
-      std::string object_id, session_id;
+      std::string object_id, session_id, observation_id;
       ecto::spore<db::ObjectDbParameters> db_params_;
       db::ObjectDbPtr db;
     };
