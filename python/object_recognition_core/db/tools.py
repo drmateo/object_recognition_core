@@ -104,6 +104,8 @@ def upload_mesh(db, object_id, original_path, cloud_path=None, mesh_path=None):
         with open(mesh_path, 'r') as mesh:
             db.put_attachment(m, mesh, filename='mesh.stl', content_type='application/octet-stream')
 
+    return m['_id']
+
 ########################################################################################################################
 
 def upload_cloud(db, object_id, original_path, cloud_name=None, mesh_path=None):
